@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Room Booking</title>
+    <link rel="stylesheet" href="/css/booking.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Guest Room Booking</h1>
+        <form id="bookingForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+            
+            <label for="checkIn">Check-In Date:</label>
+            <input type="date" id="checkIn" name="checkIn" required>
+            
+            <label for="checkOut">Check-Out Date:</label>
+            <input type="date" id="checkOut" name="checkOut" required>
+            <label for="room-type">Room Type:</label>
+            <select id="room-type">
+                <option value="single" data-price="100">Single - $100 per night</option>
+                <option value="double" data-price="150">Double - $150 per night</option>
+            </select>
+              <label for="nights">Number of Nights:</label>
+            <input type="number" id="nights" value="1" min="1">
+         
+            <button type="button" id="calculate-amount">Calculate Amount</button>
+            <p id="total-amount">Total Amount: $<span id="amount">0.00</span></p>
+            
+            <button type="submit">Book Room</button>
+        </form>
+      
+        <div id="confirmation"></div>
+    </div>
+
+    <script >
+        document.getElementById('bookingForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Retrieve form data
+    const formData = new FormData(event.target);
+    const name = formData.get('name');
+    const phone = formData.get('phone');
+    const checkIn = formData.get('checkIn');
+    const checkOut = formData.get('checkOut');
+
+    //  confirmation message
+    const confirmationDiv = document.getElementById('confirmation');
+    confirmationDiv.innerHTML = `
+        <p>Thank you, ${name}!</p>
+        <p>Your booking from ${checkIn} to ${checkOut} has been successfully booked.</p>
+        <p>We will contact you at ${phone} if we need any further information.</p>
+    `
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const roomTypeSelect = document.getElementById('room-type');
+    const nightsInput = document.getElementById('nights');
+    const calculateButton = document.getElementById('calculate-amount');
+    const amountElement = document.getElementById('amount');
+
+    calculateButton.addEventListener('click', function() {
+        const selectedOption = roomTypeSelect.options[roomTypeSelect.selectedIndex];
+        const roomPrice = parseFloat(selectedOption.getAttribute('data-price'));
+        const numberOfNights = parseInt(nightsInput.value, 10);
+
+        if (isNaN(roomPrice) || isNaN(numberOfNights) || numberOfNights < 1) {
+            alert('Please enter valid values.');
+            return;
+        }
+
+        const totalAmount = roomPrice * numberOfNights;
+        amountElement.textContent = totalAmount.toFixed(2);
+    });
+});
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
